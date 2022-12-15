@@ -10,11 +10,11 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @favorite = current_user.favorites.find_by(blog_id: @blog.id)
+
   end
 
   def create
-    @blog = current_user.blog.build(blog_params)
+    @blog = current_user.blogs.build(blog_params)
     if params[:back]
       render :new
     else
@@ -33,7 +33,7 @@ class BlogsController < ApplicationController
 
   def update
     if @blog.update(blog_params)
-      respond_to blogs_path, notice: "編集しました"
+      redirect_to blogs_path, notice: "編集しました"
     else
       render :edit
     end
@@ -41,10 +41,7 @@ class BlogsController < ApplicationController
 
   def destroy
     @blog.destroy
-    respond_to do |format|
-    format.html { redirect_to blogs_url, notice: "Blog was successfully destroyed" }
-    format.json { head :no_content}
-    end
+    redirect_to blogs_path, notice: "削除しました"
   end
 
   private
